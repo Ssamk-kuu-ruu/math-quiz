@@ -43,3 +43,31 @@ else {
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Math Quiz</h1>
+        <p>Question <?= $_SESSION['question_count'] ?>:</p>
+        <p><strong><?= "$num1 $operator $num2 = ?" ?></strong></p>
+        <form action="process.php" method="post">
+            <?php foreach ($choices as $index => $choice): ?>
+                <div>
+                    <input type="radio" name="user_answer" id="choice<?= $index ?>" value="<?= $choice ?>" required>
+                    <label for="choice<?= $index ?>"><?= chr(65 + $index) ?>. <?= $choice ?></label>
+                </div>
+
+            <?php endforeach; ?>
+            <button type="submit">Submit</button>
+        </form>
+        <p>Score: Correct <?= $_SESSION['score']['correct'] ?> | Wrong <?= $_SESSION['score']['wrong'] ?></p>
+    </div>
+</body>
+</html>
