@@ -1,16 +1,4 @@
 <?php
-
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "quizapp";
-$port = "3307";
-
-$conn = mysqli_connect($host, $user, $pass, $dbname, $port);
-
-if ($conn -> connect_error) {
-    die("Connection failed: " . $conn -> connect_error)
-}
 session_start();
 
 if (!isset($_SESSION['settings'])) {
@@ -29,7 +17,7 @@ function generatequestions($settings) {
     $num1 = rand($settings['level_min'], $settings['level_max']);
     $num2 = rand($settings['level_min'], $settings['level_max']);
     $operator = $settings['operator'];
-    $correctanswer = eval('return $num1 $operator $num2');
+    $correctanswer = eval("return $num1 $operator $num2;");
     $choices = [$correctanswer];
 
     while (count($choices) < 4) {
