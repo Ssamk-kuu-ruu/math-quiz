@@ -1,24 +1,32 @@
 <?php
 session_start();
 
-// Initialize settings if not already set
-if (!isset($_SESSION['settings'])) {
-    $_SESSION['settings'] = [
-        'level_min' => 1,
-        'level_max' => 10,
-        'operator' => '+',
-        'num_questions' => 10,
-        'answer_diff' => 10
-    ];
-    $_SESSION['score'] = ['correct' => 0, 'wrong' => 0];
-    $_SESSION['question_count'] = 0;
+// Ensure settings are initialized
+$settings = $_SESSION['settings'] ?? [
+    'level' => 1, // Default level
+    'operator' => '+', // Default operator
+    'num_questions' => 10, // Default number of questions
+    'answer_diff' => 10, // Default max difference
+    'custom_min' => 1, // Default custom level min
+    'custom_max' => 10 // Default custom level max
+];
+
+// Set range based on level
+if ($settings['level'] == 1) {
+    $min = 1;
+    $max = 10;
+} elseif ($settings['level'] == 2) {
+    $min = 11;
+    $max = 100;
+} else {
+    $min = $settings['custom_min'] ?? 1; // Use default if not set
+    $max = $settings['custom_max'] ?? 10; // Use default if not set
 }
 
-// Function to generate random question
-function generateQuestion($settings)
-{
-    $num1 = rand($settings['level_min'], $settings['level_max']);
-    $num2 = rand($settings['level_min'], $settings['level_max']);
+// Generate question
+if ($_SESSION['question_count'] < $settings['num_questions']) {
+    $num1 = rand($min, $max);
+    $num2 = rand($min, $max);
     $operator = $settings['operator'];
     $correctAnswer = eval("return $num1 $operator $num2;");
     $choices = [$correctAnswer];
@@ -33,11 +41,6 @@ function generateQuestion($settings)
     }
 
     shuffle($choices);
-    return [$num1, $num2, $operator, $correctAnswer, $choices];
-}
-
-if ($_SESSION['question_count'] < $_SESSION['settings']['num_questions']) {
-    list($num1, $num2, $operator, $correctAnswer, $choices) = generateQuestion($_SESSION['settings']);
     $_SESSION['current_answer'] = $correctAnswer;
     $_SESSION['question_count']++;
 } else {
@@ -45,6 +48,7 @@ if ($_SESSION['question_count'] < $_SESSION['settings']['num_questions']) {
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
