@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Initialize settings if not already set
 if (!isset($_SESSION['settings'])) {
     $_SESSION['settings'] = [
         'level_min' => 1,
@@ -13,35 +14,36 @@ if (!isset($_SESSION['settings'])) {
     $_SESSION['question_count'] = 0;
 }
 
-function generatequestions($settings) {
+// Function to generate random question
+function generateQuestion($settings)
+{
     $num1 = rand($settings['level_min'], $settings['level_max']);
     $num2 = rand($settings['level_min'], $settings['level_max']);
     $operator = $settings['operator'];
-    $correctanswer = eval("return $num1 $operator $num2;");
-    $choices = [$correctanswer];
+    $correctAnswer = eval("return $num1 $operator $num2;");
+    $choices = [$correctAnswer];
 
+    // Generate choices
     while (count($choices) < 4) {
         $randomDiff = rand(-$settings['answer_diff'], $settings['answer_diff']);
-        $choice = $correctanswer + $randomDiff;
+        $choice = $correctAnswer + $randomDiff;
         if (!in_array($choice, $choices) && $choice >= 0) {
             $choices[] = $choice;
         }
     }
 
     shuffle($choices);
-    return [$num1, $num2, $operator, $correctanswer, $choices];
+    return [$num1, $num2, $operator, $correctAnswer, $choices];
 }
 
 if ($_SESSION['question_count'] < $_SESSION['settings']['num_questions']) {
-    list($num1, $num2, $operator, $correctanswer, $choices) = generatequestions($_SESSION['settings']);
-    $_SESSION['current_answer'] = $correctanswer;
+    list($num1, $num2, $operator, $correctAnswer, $choices) = generateQuestion($_SESSION['settings']);
+    $_SESSION['current_answer'] = $correctAnswer;
     $_SESSION['question_count']++;
-}
-else {
+} else {
     header('Location: results.php');
-    exit;   
+    exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -60,10 +62,9 @@ else {
         <form action="process.php" method="post">
             <?php foreach ($choices as $index => $choice): ?>
                 <div>
-                    <input type="radio" name="user_answer" id="choice<?= $index ?>" value="<?= $choice ?>" required>
+                    <input type="radio" id="choice<?= $index ?>" name="user_answer" value="<?= $choice ?>" required>
                     <label for="choice<?= $index ?>"><?= chr(65 + $index) ?>. <?= $choice ?></label>
                 </div>
-
             <?php endforeach; ?>
             <button type="submit">Submit</button>
         </form>

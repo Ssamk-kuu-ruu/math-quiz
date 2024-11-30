@@ -2,17 +2,16 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $useranswer = intval($_POST['user_answer']);
-    $correctanswer = $_SESSION['current_answer'];
+    $userAnswer = intval($_POST['user_answer']);
+    $correctAnswer = $_SESSION['current_answer'];
 
-    if ($useranswer === $correctanswer) {
+    if ($userAnswer === $correctAnswer) {
         $_SESSION['score']['correct']++;
     } else {
-      $_SESSION['score']['wrong']++;  
+        $_SESSION['score']['wrong']++;
     }
 }
 
-header('Location: mquiz.php');
+header('Location: index.php');
 exit;
-
 ?>

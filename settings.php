@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     $_SESSION['score'] = ['correct' => 0, 'wrong' => 0];
     $_SESSION['question_count'] = 0;
-    header('Location: index.php');
+    header('Location: mquiz.php');
     exit;
 }
 ?>

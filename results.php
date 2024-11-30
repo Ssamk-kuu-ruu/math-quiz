@@ -16,7 +16,7 @@ session_start();
         <p>Total Questions: <?= $_SESSION['settings']['num_questions'] ?></p>
         <p>Correct Answers: <?= $_SESSION['score']['correct'] ?></p>
         <p>Wrong Answers: <?= $_SESSION['score']['wrong'] ?></p>
-        <form action="settings.php" method="post">
+        <form action="mquiz.php" method="post">
             <button type="submit">Start New Quiz</button>
         </form>
     </div>
