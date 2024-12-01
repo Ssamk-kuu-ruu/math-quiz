@@ -1,24 +1,26 @@
 <?php
 session_start();
-?>
+$correct = $_SESSION['correct'] ?? 0;
+$total = $_SESSION['settings']['num_questions'] ?? 0;
 
+// Clear session for new quiz
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>Quiz Results</h1>
-        <p>Total Questions: <?= $_SESSION['settings']['num_questions'] ?></p>
-        <p>Correct Answers: <?= $_SESSION['score']['correct'] ?></p>
-        <p>Wrong Answers: <?= $_SESSION['score']['wrong'] ?></p>
-        <form action="reset.php" method="post">
-            <button type="submit">Start New Quiz</button>
-        </form>
+    <div class="container">
+        <div class="card">
+            <h1>Quiz Results</h1>
+            <p>You answered <?= $correct ?> out of <?= $total ?> questions correctly!</p>
+            <a href="settings.php" class="btn">Try Again</a>
+        </div>
     </div>
 </body>
 </html>

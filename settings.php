@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $_SESSION['settings'] = [
+        'level' => $_POST['level'] ?? 1,
+        'operator' => $_POST['operator'] ?? '+',
+        'num_questions' => intval($_POST['num_questions'] ?? 10),
+        'answer_diff' => intval($_POST['answer_diff'] ?? 10),
+        'custom_min' => intval($_POST['custom_min'] ?? 1),
+        'custom_max' => intval($_POST['custom_max'] ?? 10),
+    ];
+    header('Location: quiz.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Quiz Settings</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -64,4 +80,3 @@
     </div>
 </body>
 </html>
-
