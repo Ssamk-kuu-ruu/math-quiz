@@ -74,5 +74,9 @@ if ($_SESSION['question_count'] < $settings['num_questions']) {
         </form>
         <p>Score: Correct <?= $_SESSION['score']['correct'] ?> | Wrong <?= $_SESSION['score']['wrong'] ?></p>
     </div>
+    <div class="progress-bar">
+        <div class="progress" style="width: <?= ($_SESSION['question_count'] / $settings['num_questions']) * 100 ?>%;"></div>
+    </div>
+
 </body>
 </html>

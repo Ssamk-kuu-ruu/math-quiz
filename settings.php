@@ -1,71 +1,67 @@
-<?php
-session_start();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['settings'] = [
-        'level' => $_POST['level'] ?? 1, // Default to 1 if not set
-        'operator' => $_POST['operator'] ?? '+',
-        'num_questions' => intval($_POST['num_questions'] ?? 10),
-        'answer_diff' => intval($_POST['answer_diff'] ?? 10),
-        'custom_min' => intval($_POST['custom_min'] ?? 1),
-        'custom_max' => intval($_POST['custom_max'] ?? 10),
-    ];
-    header('Location: mquiz.php');
-    exit;
-}
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Quiz Settings</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>Quiz Settings</h1>
-        <form action="" method="post">
-            <h3>Level</h3>
-            <div>
-                <input type="radio" id="level1" name="level" value="1" checked>
-                <label for="level1">Level 1 (1-10)</label>
-            </div>
-            <div>
-                <input type="radio" id="level2" name="level" value="2">
-                <label for="level2">Level 2 (11-100)</label>
-            </div>
-            <div>
-                <input type="radio" id="custom" name="level" value="3">
-                <label for="custom">Custom Level</label>
-                <input type="number" name="custom_min" value="1" placeholder="Min">
-                <input type="number" name="custom_max" value="10" placeholder="Max">
-            </div>
-            
-            <h3>Operator</h3>
-            <div>
-                <input type="radio" id="addition" name="operator" value="+" checked>
-                <label for="addition">Addition</label>
-            </div>
-            <div>
-                <input type="radio" id="subtraction" name="operator" value="-">
-                <label for="subtraction">Subtraction</label>
-            </div>
-            <div>
-                <input type="radio" id="multiplication" name="operator" value="*">
-                <label for="multiplication">Multiplication</label>
-            </div>
+    <div class="container">
+        <div class="card">
+            <h1>Math Quiz Settings</h1>
+            <form action="" method="post" id="settingsForm">
+                <h3>Select Level</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="level" value="1" checked>
+                        <span>Level 1 (1-10)</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="level" value="2">
+                        <span>Level 2 (11-100)</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="level" value="3">
+                        <span>Custom Level</span>
+                    </label>
+                    <div class="custom-level">
+                        <input type="number" name="custom_min" placeholder="Min" required>
+                        <input type="number" name="custom_max" placeholder="Max" required>
+                    </div>
+                </div>
 
-            <h3>Quiz Options</h3>
-            <label for="num_questions">Number of Questions:</label>
-            <input type="number" id="num_questions" name="num_questions" value="10" required>
-            <label for="answer_diff">Max Answer Difference:</label>
-            <input type="number" id="answer_diff" name="answer_diff" value="10" required>
+                <h3>Select Operator</h3>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="operator" value="+" checked>
+                        <span>Addition</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="operator" value="-">
+                        <span>Subtraction</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="operator" value="*">
+                        <span>Multiplication</span>
+                    </label>
+                </div>
 
-            <button type="submit">Start Quiz</button>
-        </form>
+                <h3>Quiz Options</h3>
+                <div class="input-group">
+                    <label>Number of Questions</label>
+                    <input type="number" name="num_questions" value="10" required>
+                </div>
+                <div class="input-group">
+                    <label>Max Answer Difference</label>
+                    <input type="number" name="answer_diff" value="10" required>
+                </div>
+
+                <button type="submit" class="btn">Start Quiz</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
+
